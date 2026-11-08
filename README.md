@@ -81,6 +81,7 @@ You can find your API keys here:
 - Put a comma `,` between project blocks.
 - **Do not** put a comma after the last project block.
 - Standard keys or `sb_publishable_` keys are both supported.
+- `url` can be a full URL (`https://...`) or just the host (`your-project.supabase.co`); the workflow normalizes both.
 
 > 🛠 **Troubleshooting JSON**: If your workflow fails at step 1, copy-paste your text into [jsonlint.com](https://jsonlint.com/) to find missing quotes or syntax errors.
 ## 3. Enable GitHub Actions

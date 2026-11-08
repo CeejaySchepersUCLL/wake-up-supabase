@@ -21,7 +21,7 @@ jobs:
           fi
 
           python3 -c '
-          import json, os, urllib.request, urllib.error, sys
+          import json, os, re, urllib.request, urllib.error, sys
 
           data = os.environ.get("SUPABASE_PROJECTS_JSON", "[]")
           try:
@@ -34,7 +34,14 @@ jobs:
           has_error = False
 
           for idx, proj in enumerate(projects):
-              url = proj.get("url", "").rstrip("/")
+              raw_url = proj.get("url", "").strip()
+              url = raw_url.rstrip("/")
+              if url:
+                  # Normalize accidental repeated schemes like https://https://...
+                  url = re.sub(r"^(https?://)+", "https://", url)
+                  # Accept host-only values by defaulting to HTTPS.
+                  if not url.startswith(("http://", "https://")):
+                      url = f"https://{url}"
               key = proj.get("anon_key", "").strip()
               name = proj.get("name", f"project-{idx+1}")
 
